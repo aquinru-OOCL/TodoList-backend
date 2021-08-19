@@ -118,6 +118,15 @@ public class TodoIntegrationTest {
                 .andExpect(jsonPath("$.status").value("404 NOT_FOUND"));
     }
 
+    @Test
+    public void should_return_exception_message_when_delete_given_non_existent_todo() throws Exception {
+        // Given
 
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/todos/" + 365))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Todo not found. Cannot delete non-existent todo."))
+                .andExpect(jsonPath("$.status").value("404 NOT_FOUND"));
+    }
 
 }
