@@ -45,4 +45,13 @@ public class TodoService {
     public Todo getTodoById(Integer todoId) {
         return todoRepository.findById(todoId).orElse(null);
     }
+
+    public void deleteTodo(Integer todoId) {
+        Todo todo = todoRepository.findById(todoId).orElse(null);
+        if (todo == null) {
+            System.out.println("todo null");
+        }
+
+        todoRepository.delete(todo);
+    }
 }
