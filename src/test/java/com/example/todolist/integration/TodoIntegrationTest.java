@@ -102,6 +102,21 @@ public class TodoIntegrationTest {
                 .andReturn();
     }
 
+    @Test
+    public void should_return_exception_message_when_update_given_non_existent_id() throws Exception {
+        // Given
+        String stringAsJson = "{\n" +
+                "    \"done\" : true\n" +
+                "}";
+
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.put("/todos/" + 365)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(stringAsJson))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Todo not found. Cannot update non-existent todo."))
+                .andExpect(jsonPath("$.status").value("404 NOT_FOUND"));
+    }
 
 
 
