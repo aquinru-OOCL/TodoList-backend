@@ -12,7 +12,7 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String text;
-    private Boolean done;
+    private Boolean done = false;
 
     public Todo(Integer id, String text, Boolean done) {
         this.id = id;
