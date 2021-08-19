@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -38,6 +39,22 @@ public class TodoIntegrationTest {
                 .andExpect(jsonPath("$[0].id").value(savedTodo.getId()))
                 .andExpect(jsonPath("$[0].text").value(savedTodo.getText()))
                 .andExpect(jsonPath("$[0].done").value(savedTodo.getDone()));
+    }
+
+    @Test
+    public void should_save_todo_when_save_given_one_todo() throws Exception {
+        // Given
+        String stringAsJson = "{\n" +
+                "    \"text\" : \"Add this todo.\"\n" +
+                "}";
+        // When & Then
+        mockMvc.perform(MockMvcRequestBuilders.post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(stringAsJson))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.text").value("Add this todo."))
+                .andExpect(jsonPath("$.done").value(false));
     }
 
 }
